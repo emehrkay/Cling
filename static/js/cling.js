@@ -1,0 +1,84 @@
+var Cling = new Class({
+    Implements: [Options, Events],
+    
+    $pages:{},
+    
+    options: {
+        
+    },
+    
+    initialize: function(){
+        this.$build();
+    },
+    
+    $build: function(){
+        var self = this,
+            zindex = 1000,
+            pages = $$('.page'),
+            front = -1;
+        
+        this.container = document.getElement('.page_container');
+        this.deck = new Deck.TimeMachine(this.container, {
+            card_width: 110,
+            zindex: 1000,
+            'onCardAdded': function(i, card){
+                var self = this,
+                    footer = document.getElement('footer');
+
+                new Element('a', {
+                    'href': '#',
+                    'text': i,
+                    'events':{
+                        'click': function(e){
+                            e.stop();
+                            self.toCard(i);
+                        }
+                    }
+                }).inject(footer)
+            }
+        });
+        
+        this.request = new Request.JSON({
+            'method': 'get',
+            'onComplete': function(resp){
+                self.$addPage(resp)
+            }
+        });
+        
+        pages.reverse().each(function(page, i){
+            self.deck.addCard(page, i);
+        });
+        
+        window.addEvent('click:relay(a[href^="/"])', function(e){
+            e.stop();
+            
+            self.$goToPage(this.get('href'));
+        });
+    },
+    
+    $goToPage: function(uri){
+        var idx = this.deck.findByName(uri);
+        
+        if(idx > -1){
+            this.deck.toCard(idx);
+        }else{
+            this.request.setOptions({
+                'url': uri
+            }).send();
+        }
+    },
+    
+    $addPage: function(data){
+        var temp = new Element('div').set('html', data.content),
+            div = temp.getElement('*:first-child');
+            
+        if(div){
+            div.setStyles(this.deck.cardStyle(-1))
+                .inject(this.container, 'top');
+        
+            this.deck.addCard(div, this.deck.active, data.path);
+        }
+        
+        return this;
+    }
+});

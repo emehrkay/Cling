@@ -1,0 +1,13 @@
+<ul class="toc_list">
+    {% for page, categories in data.items() %}
+        <li class="toc_entry">
+            <a href="/{{ '/'.join(categories) }}/{{ page }}">{{ page }}</a>
+            
+            <div class="toc_categories">
+            {% for i, cat in enumerate(reversed(categories)) %}
+                <a href="/{{ '/'.join(categories[i:]) }}">{{ cat }}</a>
+            {% end %}
+            </div>
+        </li>
+    {% end %}
+</ul>

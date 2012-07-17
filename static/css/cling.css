@@ -1,0 +1,49 @@
+#stage{
+    position: absolute;
+    top: 0px;
+    bottom: 50px;
+    left: 0px;
+    right: 0px;
+    background: purple;
+    overflow: hidden;
+}
+#main_footer{
+    position: absolute;
+    display: block;
+    bottom: 0px;
+    height: 50px;
+    background: gray;
+    left: 0px;
+    right: 0px;
+}
+.page_container{
+    position: absolute;
+    width: 80%;
+    height: 84%;
+    left: 10%;
+    top: 10%;
+}
+    .page{
+        width: 110%;
+        left: -5%;
+        background: #fff;
+        position: absolute;
+        top: 2%;
+        height: 100%;
+        border: 1px solid;
+        overflow: hidden;
+    }
+        .page header{
+            display: block;
+            background: green;
+            height: 50px;
+        }
+        .page section{
+            display: block;
+            overflow: auto;
+            position: absolute;
+            top: 50px;
+            bottom: 0px;
+            right: 0px;
+            left: 0px;
+        }

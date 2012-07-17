@@ -1,0 +1,157 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+html, body{
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+strong, b{
+    font-weight: bold;
+}
+em, i{
+    font-style: italic;
+}
+
+.hidden{
+    display: none;
+}
+
+
+/* Typography
+-------------------------------------------------------------- */
+
+body { 
+	font-size: 100%;
+ 	line-height: 2;
+	color: #222; 
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+p	{ margin: 0 0 1.5em; }
+strong	{ font-weight: bold; }
+em	{ font-style: italic; }
+
+audio,
+img,
+video {
+	max-width: 100%;
+}
+
+
+
+/* Headings
+-------------------------------------------------------------- */
+
+h1,h2,h3,h4,h5,h6 { font-weight: bold; color: #111; line-height: 1; margin-bottom: 0.25em; }
+
+h1 { font-size: 3em;}
+h2 { font-size: 2em;}
+h3 { font-size: 1.5em; }
+h4 { font-size: 1.2em; }
+h5 { font-size: 1em; }
+h6 { font-size: 1em; }
+
+h1 img, h2 img, h3 img, 
+h4 img, h5 img, h6 img {
+  margin:0;
+}
+
+/* Links
+-------------------------------------------------------------- */
+
+a           	{ color: #009; text-decoration: underline; }
+a:focus, 
+a:hover     	{ color: #000; }
+a:visited		{}
+a:visted:hover 	{}
+
+
+/* Lists
+-------------------------------------------------------------- */
+
+li ul, 
+li ol       { margin:0 1.5em; }
+ul, ol      { margin: 0 0.5em 1.5em 1.5em; }
+
+ul          { list-style-type: circle; }
+ul + li		{}
+
+ol          { list-style-type: decimal; }
+ol + li		{}
+
+dl          { margin: 0 0 1.5em 0; }
+dl dt       { font-weight: bold; }
+dd          { margin-left: 1.5em;}
+
+
+/* Other Elements
+-------------------------------------------------------------- */
+
+blockquote  { margin: 1.5em; color: #666; font-style: italic; }
+dfn         { font-style: italic;font-weight: bold; background: #ffc; }
+sup, sub    { line-height: 0; }
+
+abbr, 
+acronym     { border-bottom: 1px dotted #666; }
+address     { margin: 0 0 1.5em; font-style: italic; }
+del         { color:#666; }
+
+pre,code    { margin: 1.5em 0; white-space: pre; }
+tt          { display: block; margin: 1.5em 0; line-height: 1.5; }
+pre,code,tt { font: 1em 'andale mono', 'lucida console', monospace; line-height: 1.5; }
+
+/**CLEARFIX**/
+.clearfix:before,
+.clearfix:after{
+    content: '';
+    display: table;
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.clearfix{
+    zoom: 1;
+}
+/**CLEARFIX**/
