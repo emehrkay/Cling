@@ -88,29 +88,31 @@ class PageHandler(BaseHandler):
         if path isnt index, index is loaded
         """
         page_content = ''
+        ajax = self.is_ajax()
 
         if path is None:
             path = 'index'
-        
-        if path is None or str(path).lower() != 'toc':
-            title, slug, date, template, content= self.parse_page('toc')
-            page_content += content
 
-        if path is None or str(path).lower() != 'index':
-            title, slug, date, template, content = self.parse_page('index')
-            page_content += content
+        if ajax is False:
+            if path is None or str(path).lower() != 'toc':
+                title, slug, date, template, content= self.parse_page('toc')
+                page_content += content
+
+            if path is None or str(path).lower() != 'index':
+                title, slug, date, template, content = self.parse_page('index')
+                page_content += content
 
 
         title, slug, date, template, content = self.parse_page(path)
         page_content += content
                 
-        if self.is_ajax():
+        if ajax is True:
             self.write({
                 'title': title,
                 'slug': slug,
                 'date': date,
                 'path': '/' + path,
-                'content': content
+                'content': page_content
             })
         else:
             self.render('template/base.html', title=title, page_content=page_content)
