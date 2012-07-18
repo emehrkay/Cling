@@ -4,3 +4,4 @@ author: EmEhRKay
 date: 11/07/2012
 
 Hello
+{{ modules.TOC() }}

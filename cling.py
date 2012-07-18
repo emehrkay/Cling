@@ -40,6 +40,23 @@ class Application(web.Application):
 class BaseHandler(web.RequestHandler):
     """All web request handlers extends this class"""
     
+    def _template_string(self, string, **kwargs):
+        template = web.template.Template(string, autoescape=None)
+        args = dict(
+            handler=self,
+            request=self.request,
+            current_user=self.current_user,
+            locale=self.locale,
+            _=self.locale.translate,
+            static_url=self.static_url,
+            xsrf_form_html=self.xsrf_form_html,
+            reverse_url=self.reverse_url
+        )
+        args.update(**kwargs)
+        args.update(self.ui)
+        return template.generate(**args)
+        
+    
     def parse_page(self, page=None):
         """method used to render a page from the page directory
         
@@ -48,6 +65,7 @@ class BaseHandler(web.RequestHandler):
             stirng page 
         """
         title, slug, date, template, content = load_page(page)
+        content = self._template_string(content)
         template = '%s.html' % os.path.join('template', template)
         content = self.render_string(template, content=content)
         page_content = self.render_string('template/page/page.html', title=title, 
