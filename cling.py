@@ -67,7 +67,7 @@ class BaseHandler(web.RequestHandler):
         title, slug, date, template, content = parse_page(page)
         content = self._template_string(content)
         template = '%s.html' % os.path.join('template', template)
-        content = self.render_string(template, content=content)
+        content = self.render_string(template, content=content, page=page)
         page_content = self.render_string('template/page/page.html', title=title, 
             slug=slug, date=date, content=content, page=page)
             

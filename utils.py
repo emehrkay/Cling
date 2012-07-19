@@ -108,8 +108,8 @@ def parse_page(page, auto_index=True):
     full_file = '%s.md' % full
     md = markdown.Markdown(extensions = ['meta'])
     
-    if os.path.isfile(full):
-        md_page = full
+    if os.path.isfile(full_file):
+        md_page = full_file
     elif os.path.isdir(full):
         dir_index = os.path.join(full, 'index.md')
         
