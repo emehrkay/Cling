@@ -25,7 +25,7 @@ def directory_listing(directory):
         
         if len(cat):
             for f in files:
-                if f.endswith('.md'):
+                if f.endswith('.md') and f != 'index.md':
                     f = name_to_slug(f[:-3])
                     pages[f] = cat
 
@@ -75,7 +75,6 @@ def name_to_slug(name):
     """
     if name.endswith('.md'):
         name = name[:-3]
-    
     return re.sub('\W', '-', name)
     
     
@@ -96,37 +95,32 @@ def get_file_contents(file_name):
     """
     with open(file_name) as f:
         return f.read()
-        
-
-def load_page(path=None):
-    """function used to load a page in the """
-    full = os.path.join(options.page_dir, path)
-    full_file = '%s.md' % full
-    
-    if os.path.isfile(full_file):
-        page = '%s%s' % (path, '.md')
-    elif os.path.isdir(full):
-        page = 'toc.md'
-    elif os.path.exists(full_file) is False:
-        page = '404.md'
-    else:
-        page = 'index.md'
-
-    return parse_page(page)
     
 
-def parse_page(page):
+def parse_page(page, auto_index=True):
     """this function takes a page written in markdown and returns
     a list of strings including: title, slug, date, template, parsed
     
     args:
         string page -- the file to be parsed
     """
-    md_page = os.path.join(options.page_dir, page)
+    full = os.path.join(options.page_dir, page)
+    full_file = '%s.md' % full
     md = markdown.Markdown(extensions = ['meta'])
     
-    if os.path.exists(md_page) is False:
-        md_page = os.path.join(options.page_404)
+    if os.path.isfile(full):
+        md_page = full
+    elif os.path.isdir(full):
+        dir_index = os.path.join(full, 'index.md')
+        
+        if os.path.isfile(dir_index) and auto_index:
+            md_page = dir_index
+        else:
+            md_page = os.path.join(options.page_dir, 'toc.md')
+    elif os.path.exists(full_file) is False:
+        md_page = os.path.join(options.page_dir, '404.md')
+    else:
+        md_page = os.path.join(options.page_dir, 'index.md')
     
     content = get_file_contents(md_page)
     parsed = md.convert(content)

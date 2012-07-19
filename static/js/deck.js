@@ -207,7 +207,7 @@ var Deck = new Class({
                 element = new Element('div', {
                     'html': card
                 });
-                console.log('string')
+
                 break;
         }
         
@@ -221,9 +221,9 @@ var Deck = new Class({
             pos = position;
             element.inject(this.cards[pos], 'before');
         }
-        //console.log('add name', element, element.get('-data-name'))
-        if(element.get('-data-name')){
-            name = element.get('-data-name')
+
+        if(element.get('data-name')){
+            name = element.get('data-name')
         }
 
         element.set('data-name', name);
@@ -324,7 +324,7 @@ Deck.TimeMachine = new Class({
             unit: '%',
             duration: 500
         });
-        
+
         card.setStyles({
             'display': 'block'
         });

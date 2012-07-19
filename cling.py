@@ -17,7 +17,7 @@ define('page_404', default=os.path.join(os.path.dirname(__file__), 'page', '404.
     help='The path to the 404.md page')
 define('category_separator', default=' | ', help='Used to divide categories')
     
-from utils import load_page, directory_listing, category_listing
+from utils import parse_page, directory_listing, category_listing
 
 class Application(web.Application):
     """main appliction launcher"""
@@ -64,7 +64,7 @@ class BaseHandler(web.RequestHandler):
             string section -- the 
             stirng page 
         """
-        title, slug, date, template, content = load_page(page)
+        title, slug, date, template, content = parse_page(page)
         content = self._template_string(content)
         template = '%s.html' % os.path.join('template', template)
         content = self.render_string(template, content=content)

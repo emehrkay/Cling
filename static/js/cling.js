@@ -20,28 +20,13 @@ var Cling = new Class({
         this.container = document.getElement('.page_container');
         this.deck = new Deck.TimeMachine(this.container, {
             card_width: 110,
-            zindex: 1000,
-            'onCardAdded': function(i, card){
-                var self = this,
-                    footer = document.getElement('footer');
-
-                new Element('a', {
-                    'href': '#',
-                    'text': i,
-                    'events':{
-                        'click': function(e){
-                            e.stop();
-                            self.toCard(i);
-                        }
-                    }
-                }).inject(footer)
-            }
+            zindex: 1000
         });
         
         this.request = new Request.JSON({
             'method': 'get',
             'onComplete': function(resp){
-                self.$addPage(resp)
+                self.$addPage(resp);
             }
         });
         
@@ -49,10 +34,15 @@ var Cling = new Class({
             self.deck.addCard(page, i);
         });
         
-        window.addEvent('click:relay(a[href^="/"])', function(e){
+        window.addEvent('click:relay(a:not([href=#], [href^=http://], [data-noxhr]))', function(e){
             e.stop();
-            
-            self.$goToPage(this.get('href'));
+            History.push(this.get('href'));
+        });
+        
+        History.addEvent('change', function(){
+            var path = window.location.pathname !== '/' ? window.location.pathname : '/index';
+
+            self.$goToPage(path);
         });
     },
     
@@ -66,6 +56,8 @@ var Cling = new Class({
                 'url': uri
             }).send();
         }
+        
+        return this;
     },
     
     $addPage: function(data){
