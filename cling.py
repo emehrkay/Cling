@@ -16,8 +16,9 @@ define('page_dir', default=os.path.join(os.path.dirname(__file__), 'page'),
 define('page_404', default=os.path.join(os.path.dirname(__file__), 'page', '404.md'), 
     help='The path to the 404.md page')
 define('category_separator', default=' | ', help='Used to divide categories')
+define('sort_article_by', default='modified', help='Parameter to sort articles by; modifed or created')
     
-from utils import parse_page, directory_listing, category_listing
+from utils import parse_page, directory_listing
 
 class Application(web.Application):
     """main appliction launcher"""
@@ -28,7 +29,7 @@ class Application(web.Application):
             'autoescape': None,
             'static_path': os.path.join(os.path.dirname(__file__), 'static'),
             'cookie_secret': 'a23,m.r49we342asdf6zxkyjlj889(*9ª•ª•90lij;)',
-            'ui_modules': {'TOC': TocModule}
+            'ui_modules': {'TOC': TocModule,}
         }
 
         routes = [
@@ -61,13 +62,12 @@ class BaseHandler(web.RequestHandler):
         """method used to render a page from the page directory
         
         args:
-            string section -- the 
             stirng page 
         """
         title, slug, date, template, content = parse_page(page)
         content = self._template_string(content)
         template = '%s.html' % os.path.join('template', template)
-        content = self.render_string(template, content=content, page=page)
+        content = self.render_string(template, content=content, page=os.path.join(options.page_dir, page))
         page_content = self.render_string('template/page/page.html', title=title, 
             slug=slug, date=date, content=content, page=page)
             
@@ -128,9 +128,13 @@ class TocModule(web.UIModule):
         args:
             string directory -- the directory
         """
+        
+        if directory == 'page/toc':
+            directory = options.page_dir
+            
         toc = directory_listing(directory)
         return self.render_string('template/asset/toc.html', data=toc)
-
+        
 
 if __name__ == '__main__':
     """Start the application"""

@@ -18,17 +18,25 @@ def directory_listing(directory):
     args:
         string directory -- the directory to read
     """
-    pages = {}
+    pages = []
     
     for path, dirs, files in os.walk(directory):
         cat = path.split(os.sep)[1:]
-        
+
         if len(cat):
             for f in files:
                 if f.endswith('.md') and f != 'index.md':
-                    f = name_to_slug(f[:-3])
-                    pages[f] = cat
-
+                    fixed = name_to_slug(f[:-3])
+                    pages.append((fixed, cat, os.path.join(path, f)))
+                    
+    def sort(page):
+        if options.sort_article_by == 'modified':
+            return os.path.getmtime(page[2])
+        else:
+            return os.path.getctime(page[2])
+            
+    pages.sort(key=sort, reverse=True)
+    
     return pages
     
 
@@ -95,7 +103,7 @@ def get_file_contents(file_name):
     """
     with open(file_name) as f:
         return f.read()
-    
+
 
 def parse_page(page, auto_index=True):
     """this function takes a page written in markdown and returns
@@ -121,11 +129,11 @@ def parse_page(page, auto_index=True):
         md_page = os.path.join(options.page_dir, '404.md')
     else:
         md_page = os.path.join(options.page_dir, 'index.md')
-    
+
     content = get_file_contents(md_page)
     parsed = md.convert(content)
     meta = md.Meta
-    title = str(meta.get('title', ['Page'])[0])
+    title = str(meta.get('title', [''])[0])
     slug = name_to_slug(md_page.split(os.sep)[-1])
     date = str(meta.get('date', ['today'])[0])
     template = str(meta.get('template', ['page/base'])[0])
