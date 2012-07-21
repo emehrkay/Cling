@@ -17,7 +17,8 @@ var Deck = new Class({
         start: 0,
         loop: false,
         cascade_delta: true,
-        auto_layout: true
+        auto_layout: true,
+        pages: $$()
     },
     
     initialize: function(container, options){
@@ -29,7 +30,7 @@ var Deck = new Class({
     
     $build: function(){
         var self = this;
-        this.cards = $$();
+        this.cards = this.options.pages;
         this.active = this.options.start;
         this.previous = this.options.start;
         
@@ -78,6 +79,7 @@ var Deck = new Class({
                 this[action](x);
             }else{
                 var style = this.$getCardStyle(x);
+                console.log(x, style)
                 this.cardMove(x, style);
             }
         }
@@ -236,7 +238,7 @@ var Deck = new Class({
         this.fireEvent('cardAdded', [pos, card]);
         
         var style = this.$getCardStyle(pos);
-
+        //console.log(element.get('data-name'), style, element.getStyles('*'))
         if(pos >= this.active){
             if(this.options.cascade_delta){
                 var direction = pos < this.active ? 'forward' : 'backward';

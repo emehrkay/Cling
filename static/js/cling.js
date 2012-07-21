@@ -14,7 +14,7 @@ var Cling = new Class({
     $build: function(){
         var self = this,
             zindex = 1000,
-            pages = $$('.page'),
+            pages = $$('.page').reverse(),
             front = -1;
         
         this.container = document.getElement('.page_container');
@@ -22,7 +22,7 @@ var Cling = new Class({
             card_width: 110,
             zindex: 1000
         });
-        
+
         this.request = new Request.JSON({
             'method': 'get',
             'onComplete': function(resp){
@@ -30,10 +30,10 @@ var Cling = new Class({
             }
         });
         
-        pages.reverse().each(function(page, i){
-            self.deck.addCard(page, i);
+        pages.setStyles(self.deck.cardStyle(self.deck.cards.length)).each(function(page, i){
+            self.deck.addCard(page, i, false, false);
         });
-        
+
         window.addEvent('click:relay(a:not([href=#], [href^=http://], [data-noxhr]))', function(e){
             e.stop();
             History.push(this.get('href'));
@@ -68,7 +68,7 @@ var Cling = new Class({
             div.setStyles(this.deck.cardStyle(-1))
                 .inject(this.container, 'top');
         
-            this.deck.addCard(div, this.deck.active, data.path);
+            this.deck.addCard(div, this.deck.active, data.path, true);
         }
         
         return this;
