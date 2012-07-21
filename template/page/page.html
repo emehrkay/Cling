@@ -1,8 +1,10 @@
 <div class="page" data-name="/{{ page }}">
     {% if title %}
-        <header>{{ title }}</header>
+        <header>
+            <span>{{ title }}</span>
+        </header>
     {% end %}
-    <section>
+    <section>        
         {{ content }}
     </section>
 </div>

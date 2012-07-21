@@ -276,7 +276,7 @@ Deck.TimeMachine = new Class({
             width = this.options.card_width + (diff * 5),
             style = {};
 
-        if(diff < -3){
+        if(diff < -3 && 7 == 8){
             style = {
                 'z-index': this.options.zindex + diff,
                 width: '90%',
@@ -301,6 +301,7 @@ Deck.TimeMachine = new Class({
                 left: '-7.5%',
                 height: '105%',
                 opacity: 0,
+                top: '0%',
                 'z-index': this.options.zindex + this.cards.length
             };
         }else{
@@ -310,8 +311,9 @@ Deck.TimeMachine = new Class({
                 left: ((100 - width) / 2) + '%',
                 top: diff * 2 + 1 + '%',
                 height: '100%',
-                opacity: 1
+                opacity: 1 + (diff / 10)
             };
+            console.log('dd', 1 - (diff / 100))
         }
 
         return style;

@@ -37,7 +37,16 @@
             display: block;
             background: green;
             height: 50px;
+            line-height: 50px;
+            font-size: 20px;
+            font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
         }
+            .page header span{
+                display: block;
+                height: 100%;
+                text-indent: 20px;
+                position: relative;
+            }
         .page section{
             display: block;
             overflow: auto;
