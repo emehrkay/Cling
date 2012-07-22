@@ -1,7 +1,5 @@
-title: Index Page
-summary:
+title: Cling.py
+lead_image: /static/img/default/leading.png
 author: EmEhRKay
-date: 11/07/2012
 
-Hello
-{{ modules.TOC() }}
+# Welcome to Cling.py the Tornadoweb-based static blogging engine
