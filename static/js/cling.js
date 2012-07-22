@@ -38,7 +38,7 @@ var Cling = new Class({
             self.deck.addCard(page, i, false, false);
         });
 
-        window.addEvent('click:relay(a:not([href=#], [href^=http://], [data-noxhr]))', function(e){
+        window.addEvent('click:relay(a:not([href=#], [href^=http://], [href^=https://], [data-noxhr]))', function(e){
             e.stop();
             History.push(this.get('href'));
         });
