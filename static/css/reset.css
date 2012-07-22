@@ -62,8 +62,8 @@ em, i{
 body { 
 	font-size: 100%;
  	line-height: 2;
-	color: #222; 
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #222;     
+	font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
 }
 
 p	{ margin: 0 0 1.5em; }
@@ -81,7 +81,12 @@ video {
 /* Headings
 -------------------------------------------------------------- */
 
-h1,h2,h3,h4,h5,h6 { font-weight: bold; color: #111; line-height: 1; margin-bottom: 0.25em; }
+h1,h2,h3,h4,h5,h6 { 
+    color: #111; 
+    line-height: 1; 
+    margin: .5em 0 0.25em; 
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+}
 
 h1 { font-size: 3em;}
 h2 { font-size: 2em;}
@@ -98,9 +103,17 @@ h4 img, h5 img, h6 img {
 /* Links
 -------------------------------------------------------------- */
 
-a           	{ color: #009; text-decoration: underline; }
-a:focus, 
-a:hover     	{ color: #000; }
+a {
+    color: #0069d6;
+}
+a:hover,
+a:focus{
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
 a:visited		{}
 a:visted:hover 	{}
 
@@ -126,7 +139,7 @@ dd          { margin-left: 1.5em;}
 /* Other Elements
 -------------------------------------------------------------- */
 
-blockquote  { margin: 1.5em; color: #666; font-style: italic; }
+blockquote  { margin: 1.5em; color: #666; font-style: italic; font-family:georgia,serif;}
 dfn         { font-style: italic;font-weight: bold; background: #ffc; }
 sup, sub    { line-height: 0; }
 
@@ -155,3 +168,34 @@ pre,code,tt { font: 1em 'andale mono', 'lucida console', monospace; line-height:
     zoom: 1;
 }
 /**CLEARFIX**/
+
+
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #D9FED0;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 4px 6px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    display: block;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}

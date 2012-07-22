@@ -92,7 +92,7 @@ def slug_to_name(slug):
     args:
         string name -- the name to be converted
     """
-    return '%s%s' % (re.sub('-', ' ', slug), '.md')
+    return re.sub('-', ' ', slug)
 
     
 def get_file_contents(file_name):
@@ -137,5 +137,6 @@ def parse_page(page, auto_index=True):
     slug = name_to_slug(md_page.split(os.sep)[-1])
     date = str(meta.get('date', ['today'])[0])
     template = str(meta.get('template', ['page/base'])[0])
+    lead_image = str(meta.get('lead_image', [''])[0])
     
-    return title, slug, date, template, parsed
+    return title, lead_image, slug, date, template, parsed

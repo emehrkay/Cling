@@ -4,7 +4,12 @@
             <span>{{ title }}</span>
         </header>
     {% end %}
-    <section>        
-        {{ content }}
+    <section>
+        {% if lead_image %}
+            <img src="{{ lead_image }}" alt="{{ title }} page main image" class="page_lead_image" />
+        {% end %}
+        <div class="section_content">      
+            {{ content }}
+        </div>
     </section>
 </div>

@@ -20,7 +20,11 @@ var Cling = new Class({
         this.container = document.getElement('.page_container');
         this.deck = new Deck.TimeMachine(this.container, {
             card_width: 110,
-            zindex: 1000
+            zindex: 1000,
+            'onCardMove': function(){
+                this.cards.setStyle('box-shadow', 'none');
+                this.cards[this.active].setStyle('box-shadow', '0px 1px 8px 2px rgba(0,0,0,.2)');
+            }
         });
 
         this.request = new Request.JSON({

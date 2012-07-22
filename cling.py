@@ -18,7 +18,7 @@ define('page_404', default=os.path.join(os.path.dirname(__file__), 'page', '404.
 define('category_separator', default=' | ', help='Used to divide categories')
 define('sort_article_by', default='modified', help='Parameter to sort articles by; modifed or created')
     
-from utils import parse_page, directory_listing
+from utils import parse_page, directory_listing, slug_to_name
 
 class Application(web.Application):
     """main appliction launcher"""
@@ -33,7 +33,7 @@ class Application(web.Application):
         }
 
         routes = [
-            (r'/([\w_\/]+)?', PageHandler),
+            (r'/([\w_\-\/]+)?', PageHandler),
         ]
         web.Application.__init__(self, routes, **settings)
         
@@ -64,12 +64,12 @@ class BaseHandler(web.RequestHandler):
         args:
             stirng page 
         """
-        title, slug, date, template, content = parse_page(page)
+        title, lead_image, slug, date, template, content = parse_page(page)
         content = self._template_string(content)
         template = '%s.html' % os.path.join('template', template)
         content = self.render_string(template, content=content, page=os.path.join(options.page_dir, page))
         page_content = self.render_string('template/page/page.html', title=title, 
-            slug=slug, date=date, content=content, page=page)
+            slug=slug, date=date, content=content, page=page, lead_image=lead_image)
             
         return title, slug, date, template, page_content
         
@@ -93,6 +93,8 @@ class PageHandler(BaseHandler):
         if path is None:
             path = 'index'
 
+        path = slug_to_name(path)
+        
         if ajax is False:
             if path is None or str(path).lower() != 'toc':
                 title, slug, date, template, content= self.parse_page('toc')

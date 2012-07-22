@@ -7,6 +7,7 @@ var Deck = new Class({
         /*onBuild: function(){},
         onCardIn: function(index){},
         onCardOut: function(index){},
+        onCardMove: function(){},
         onCardStyle: function(index, style){},
         onCardAdded: function(index, card){},
         onCardRemoved: function(index, card){},
@@ -69,7 +70,8 @@ var Deck = new Class({
         return style;
     },
     
-    $moveAllCards: function(from, direction){      
+    $moveAllCards: function(from, direction){
+        this.fireEvent('cardMove');
         var start = this.cards.length - 1,
             end = direction === 'forward' ? from : 0,
             action = direction === 'forward' ? '$cardIn' : '$cardOut';
@@ -79,7 +81,6 @@ var Deck = new Class({
                 this[action](x);
             }else{
                 var style = this.$getCardStyle(x);
-                console.log(x, style)
                 this.cardMove(x, style);
             }
         }
@@ -238,7 +239,7 @@ var Deck = new Class({
         this.fireEvent('cardAdded', [pos, card]);
         
         var style = this.$getCardStyle(pos);
-        //console.log(element.get('data-name'), style, element.getStyles('*'))
+
         if(pos >= this.active){
             if(this.options.cascade_delta){
                 var direction = pos < this.active ? 'forward' : 'backward';
@@ -276,14 +277,14 @@ Deck.TimeMachine = new Class({
             width = this.options.card_width + (diff * 5),
             style = {};
 
-        if(diff < -3 && 7 == 8){
+        if(diff < -3){
             style = {
                 'z-index': this.options.zindex + diff,
                 width: '90%',
                 left: '5%',
                 top: '-7%',
                 height: '100%',
-                opacity: 1
+                opacity: 1 + (diff / 10)
             };
         }else if(diff === 0){
             style = {            
@@ -313,7 +314,6 @@ Deck.TimeMachine = new Class({
                 height: '100%',
                 opacity: 1 + (diff / 10)
             };
-            console.log('dd', 1 - (diff / 100))
         }
 
         return style;
