@@ -1,6 +1,6 @@
 # Cling
 
-[Cling.py icon](https://github.com/emehrkay/Cling/raw/master/static/img/default/logo_small.png)
+<img src="https://github.com/emehrkay/Cling/raw/master/static/img/default/logo_small.png" />
 
 Static-site based on Tornado. See example at <http://www.clingpy.com>.
 
