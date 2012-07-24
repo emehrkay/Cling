@@ -26,8 +26,9 @@ def directory_listing(directory):
         if len(cat):
             for f in files:
                 if f.endswith('.md') and f != 'index.md':
-                    fixed = name_to_slug(f[:-3])
-                    pages.append((fixed, cat, os.path.join(path, f)))
+                    name = f[:-3]
+                    fixed = name_to_slug(name)
+                    pages.append((fixed, cat, os.path.join(path, f), name))
                     
     def sort(page):
         if options.sort_article_by == 'modified':

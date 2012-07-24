@@ -10,14 +10,7 @@ import os.path
 
 from tornado import httpserver, ioloop, web
 from tornado.options import define, options
-
-define('page_dir', default=os.path.join(os.path.dirname(__file__), 'page'), 
-    help='The directory where the page.md files are stored')
-define('page_404', default=os.path.join(os.path.dirname(__file__), 'page', '404.md'), 
-    help='The path to the 404.md page')
-define('category_separator', default=' | ', help='Used to divide categories')
-define('sort_article_by', default='modified', help='Parameter to sort articles by; modifed or created')
-    
+import config
 from utils import parse_page, directory_listing, slug_to_name
 
 class Application(web.Application):
@@ -51,7 +44,8 @@ class BaseHandler(web.RequestHandler):
             _=self.locale.translate,
             static_url=self.static_url,
             xsrf_form_html=self.xsrf_form_html,
-            reverse_url=self.reverse_url
+            reverse_url=self.reverse_url,
+            options=options,
         )
         args.update(**kwargs)
         args.update(self.ui)
