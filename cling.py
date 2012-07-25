@@ -125,10 +125,11 @@ class TocModule(web.UIModule):
             string directory -- the directory
         """
         
-        if directory == 'page/toc':
+        if 'page/toc' in directory:
             directory = options.page_dir
             
         toc = directory_listing(directory)
+        print '>>>', toc, directory
         return self.render_string('template/asset/toc.html', data=toc)
         
 
