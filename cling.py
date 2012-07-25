@@ -129,7 +129,6 @@ class TocModule(web.UIModule):
             directory = options.page_dir
             
         toc = directory_listing(directory)
-        print '>>>', toc, directory
         return self.render_string('template/asset/toc.html', data=toc)
         
 
