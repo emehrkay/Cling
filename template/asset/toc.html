@@ -5,6 +5,7 @@
             
             <div class="toc_categories">
                 {% for i, cat in enumerate(page[1]) %}
+                    
                     <a href="/{{ '/'.join(page[1][:i+1]) }}">{{ cat }}</a>
                 {% end %}
             </div>
