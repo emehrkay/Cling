@@ -73,6 +73,9 @@ class BaseHandler(web.RequestHandler):
         return title, slug, date, template, page_content
         
     def is_ajax(self):
+        """simply determines if the request was an ajax
+        request or not
+        """
         return 'X-Requested-With' in self.request.headers and \
             self.request.headers['X-Requested-With'] == 'XMLHttpRequest'
 
@@ -97,11 +100,11 @@ class PageHandler(BaseHandler):
         if ajax is False:
             if path is None or str(path).lower() != 'toc':
                 title, slug, date, template, content= self.parse_page('toc')
-                page_content += content
+                #page_content += content
 
             if path is None or str(path).lower() != 'index':
                 title, slug, date, template, content = self.parse_page('index')
-                page_content += content
+                #page_content += content
 
 
         title, slug, date, template, content = self.parse_page(path)
