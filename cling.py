@@ -17,6 +17,7 @@ define('page_dir', default=os.path.join(os.path.dirname(__file__), 'page'),
 define('page_404', default=os.path.join(os.path.dirname(__file__), 'page', '404.md'), 
     help='The path to the 404.md page')
 define('sort_article_by', default='modified', help='Parameter to sort articles by; modifed or created')
+define('theme', default='timemachine', help='The theme to be used with the website')
 
 class Application(web.Application):
     """main appliction launcher"""
@@ -56,6 +57,8 @@ class BaseHandler(web.RequestHandler):
         args.update(self.ui)
         return template.generate(**args)
         
+    def render_theme(self, page):
+        pass
     
     def parse_page(self, page=None):
         """method used to render a page from the page directory
@@ -67,7 +70,17 @@ class BaseHandler(web.RequestHandler):
         content = self._template_string(content)
         template = '%s.html' % os.path.join('template', template)
         content = self.render_string(template, content=content, page=os.path.join(options.page_dir, page))
-        page_content = self.render_string('template/page/page.html', title=title, 
+        page_template = 'template/page/page.html'
+        
+        for pt in ['theme/%s/page/page.html' % options.theme, page_template]:
+            print '>>>', pt, os.path.isfile(pt), '---'
+
+            if os.path.isfile(pt):
+                page_template = pt
+                print 'using', pt, page_template
+                break
+            
+        page_content = self.render_string(page_template, title=title, 
             slug=slug, date=date, content=content, page=page, lead_image=lead_image)
             
         return title, slug, date, template, page_content
@@ -119,7 +132,17 @@ class PageHandler(BaseHandler):
                 'content': page_content
             })
         else:
-            self.render('template/base.html', title=title, page_content=page_content)
+            page_template = 'template/base.html'
+            
+            for pt in ['theme/%s/base.html' % options.theme, page_template]:
+                print '>>>', pt, os.path.isfile(pt), '---'
+
+                if os.path.isfile(pt):
+                    page_template = pt
+                    print 'using', pt, page_template
+                    break
+            
+            self.render(page_template, title=title, page_content=page_content)
 
 
 class TocModule(web.UIModule):

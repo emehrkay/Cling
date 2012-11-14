@@ -22,7 +22,6 @@ def directory_listing(directory):
     
     for path, dirs, files in os.walk(directory):
         cat = path.split(os.sep)[1:]
-        print cat
         if len(cat):
             for f in files:
                 if f.endswith('.md') and f != 'index.md':
