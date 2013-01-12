@@ -11,13 +11,7 @@ import os.path
 from tornado import httpserver, ioloop, web
 from tornado.options import define, options
 from utils import parse_page, directory_listing, slug_to_name
-
-define('page_dir', default=os.path.join(os.path.dirname(__file__), 'page'), 
-    help='The directory where the page.md files are stored')
-define('page_404', default=os.path.join(os.path.dirname(__file__), 'page', '404.md'), 
-    help='The path to the 404.md page')
-define('sort_article_by', default='modified', help='Parameter to sort articles by; modifed or created')
-define('theme', default='timemachine', help='The theme to be used with the website')
+import config
 
 class Application(web.Application):
     """main appliction launcher"""
@@ -57,8 +51,19 @@ class BaseHandler(web.RequestHandler):
         args.update(self.ui)
         return template.generate(**args)
         
-    def render_theme(self, page):
-        pass
+    def get_template_page(self, page):
+        templates = ['%s.html' % os.path.join('template', page)]
+        
+        if options.theme is not None:
+            templates.append('%s.html' % os.path.join(options.theme_dir, options.theme, page))
+            #templates.insert(0, theme_template)
+        
+        for pt in reversed(templates):
+            if os.path.isfile(pt):
+                page_template = pt
+                break
+        
+        return page_template
     
     def parse_page(self, page=None):
         """method used to render a page from the page directory
@@ -68,20 +73,11 @@ class BaseHandler(web.RequestHandler):
         """
         title, lead_image, slug, date, template, content = parse_page(page)
         content = self._template_string(content)
-        template = '%s.html' % os.path.join('template', template)
-        content = self.render_string(template, content=content, page=os.path.join(options.page_dir, page))
-        page_template = 'template/page/page.html'
-        
-        for pt in ['theme/%s/page/page.html' % options.theme, page_template]:
-            print '>>>', pt, os.path.isfile(pt), '---'
-
-            if os.path.isfile(pt):
-                page_template = pt
-                print 'using', pt, page_template
-                break
-            
+        content_template = self.get_template_page(template)
+        content_rendered = self.render_string(content_template, content=content, page=os.path.join(options.page_dir, page))
+        page_template = self.get_template_page('page/page')
         page_content = self.render_string(page_template, title=title, 
-            slug=slug, date=date, content=content, page=page, lead_image=lead_image)
+            slug=slug, date=date, content=content_rendered, page=page, lead_image=lead_image)
             
         return title, slug, date, template, page_content
         
@@ -132,16 +128,7 @@ class PageHandler(BaseHandler):
                 'content': page_content
             })
         else:
-            page_template = 'template/base.html'
-            
-            for pt in ['theme/%s/base.html' % options.theme, page_template]:
-                print '>>>', pt, os.path.isfile(pt), '---'
-
-                if os.path.isfile(pt):
-                    page_template = pt
-                    print 'using', pt, page_template
-                    break
-            
+            page_template = self.get_template_page('base') 
             self.render(page_template, title=title, page_content=page_content)
 
 
@@ -155,10 +142,9 @@ class TocModule(web.UIModule):
         args:
             string directory -- the directory
         """
-        
         if 'page/toc' in directory:
             directory = options.page_dir
-            
+
         toc = directory_listing(directory)
         return self.render_string('template/asset/toc.html', data=toc)
         

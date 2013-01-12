@@ -36,7 +36,7 @@ def directory_listing(directory):
             return os.path.getctime(page[2])
             
     pages.sort(key=sort, reverse=True)
-    
+
     return pages
     
 
