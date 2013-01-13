@@ -36,9 +36,67 @@ python cling.py
 
 * Begin adding your content
 
+
+## Adding Content
+
+Since Cling.py is built on top of Tornadoweb, it makes use of Torando's templating engine and UI modules.
+
+### Page System
+
+Cling.py is a Markdown-based application that utilized version 2.2 of the Python Markdown utility. By default pages are stored in the ```page``` directory. Pages stored in the root of the directory (index.md, 404.md) will not show up under any category, but they are accessible via their slug (.com/404 .com/index).
+
+To create a new category simply add a new directory in the ```page``` directory; categories can have sub-categories by using the same process and are probably infinite (didn't test it). When a category is accessed via the url (.com/category), the toc.md page is parsed and shows all of the pages for the given category. This will first check for the existence of an index.md file in that directory and use that instead of the toc.md.
+
+The table of contents page will order files either by date created or date modified as defined in the confif.py and will only consider files that end with ```.md```. Each page listed will also list all of the categories associated with the page.
+
+#### Tornado Module System
+
+Each page is first rendered via the Markdown parser and is passed through the Tornado templating engine supplying the page with request metadata, ui modules, and localization functionality. 
+
+Pages can simply include template logic and it will be parsed before the page is rendered.
+
+If you wanted to display the table of contents module inside one of your ```.md``` pages, you would simply pepper it with (where desired):
+
+```
+{{ modules.TOC() }}
+```
+
+## Site Administration
+
+The admin.py script allows for you to enable|disable themes by running a simple command:
+
+```
+python admin.py theme [enable|disable] $theme_name
+```
+
+This will either create or remove a symlink insdie of the ```static_dir`` that points to the theme's static directory. 
+
+## Theming
+
+Writing a custom theme is pretty simple and allows for a lot of customization. 
+
+A successful theme must follow a few rules:
+	
+* Must contain a static directory. Anything in this directory will be publicly accessible, so take caution.
+* To overwrite any html file in the template directory, it must follow the same directory structure. For example, if you want a different base page, the file must live in $theme_name/base.html.
+
+## Site Configuration
+
+All site configuration options are located in config.py.
+
+* allow_data -- if a request is sent to a Cling.py site via Ajax, a json object is returned. If allow\_data is set to True, appending .data to the end of the request will return the same data.
+* site_root -- full path to the site installation.
+* page_dir -- The directory where the page.md files are stored. Relative to the site\_root.
+* static_dir -- The directory where the static files (js, css, img, etc.) are stored. Relative to the site\_root.
+* theme_dir -- The directory where the themes are stored. Relative to the site\_root.
+* page_404 -- The path to the 404.md page. Relative to the page\_dir.
+* sort\_article_by -- Parameter to sort articles by: modified or created.
+* theme -- The theme to use for your Cling.py website.
+
 ## Folder Structure
 
 * Cling
+	* admin.py -- site administration functionality
     * config.py -- site configuration, has default values
     * cling.py -- main library
     * logo -- assets for art, currently contains psd for the logo
@@ -59,35 +117,7 @@ python cling.py
             * base.html -- default page template used
             * page.html -- frames a page
             * toc.html -- frames the table of contents page. This also calls the TOC ui module
-    * utils.py -- utilities that are used throughout the application
-
-## Site Configuration
-
-* page_dir -- The directory where the page.md files are stored
-* page_404 -- The path to the 404.md page
-* sort\_article_by -- Parameter to sort articles by; modified or created
-
-## Adding Content
-
-Since Cling.py is built on top of Tornadoweb, it makes use of Torando's templating engine and UI modules.
-
-### Page System
-
-Cling.py is a Markdown-based application that utilized version 2.2 of the Python Markdown utility. By default pages are stored in the ```page``` directory. Pages stored in the root of the directory (index.md, 404.md) will not show up under any category, but they are accessible via their slug (.com/404 .com/index).
-
-To create a new category simply add a new directory in the ```page``` directory; categories can have sub-categories by using the same process and are probably infinite (didn't test it). When a category is accessed via the url (.com/category), the toc.md page is parsed and shows all of the pages for the given category. This will first check for the existence of an index.md file in that directory and use that instead of the toc.md.
-
-The table of contents page will order files either by date created or date modified as defined in the confif.py and will only consider files that end with ```.md```. Each page listed will also list all of the categories associated with the page.
-
-#### Tornado Module System
-
-Each page is first rendered via the Markdown parser and is passed through the Tornado templating engine supplying the page with request metadata, ui modules, and localization functionality. 
-
-Pages can simply include template logic and it will be parsed before the page is rendered.
-
-```
-{{ modules.TOC() }}
-```
+    * utils.py -- utility functions that are used throughout the application
 
 #License
 
