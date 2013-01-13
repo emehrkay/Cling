@@ -1,4 +1,4 @@
-var Cling = new Class({
+var Timemachine = new Class({
     Implements: [Options, Events],
     
     $pages:{},

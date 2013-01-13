@@ -100,6 +100,10 @@ class PageHandler(BaseHandler):
         """
         page_content = ''
         ajax = self.is_ajax()
+        theme = self.get_argument('theme', None)
+        
+        if theme is not None:
+            options.define('theme', default=theme, mutable=True)
 
         if path is None:
             path = 'index'
