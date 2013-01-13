@@ -24,9 +24,14 @@ class Application(web.Application):
             'cookie_secret': 'a23,m.r49we342asdf6zxkyjlj889(*9ª•ª•90lij;)',
             'ui_modules': {'TOC': TocModule,}
         }
+        
+        route = (r'/([\w_\-\/]+)?', PageHandler)
+        
+        if options.allow_data:
+            route = (r'/([\w_\-\/]+)?(?:\.data)?', PageHandler)
 
         routes = [
-            (r'/([\w_\-\/]+)?', PageHandler),
+            route,
         ]
         web.Application.__init__(self, routes, **settings)
         
@@ -87,6 +92,10 @@ class BaseHandler(web.RequestHandler):
         """
         return 'X-Requested-With' in self.request.headers and \
             self.request.headers['X-Requested-With'] == 'XMLHttpRequest'
+            
+    def is_data(self):
+        """method that checks to see if the request was for data"""
+        return self.request.uri.endswith('.data')
 
         
 class PageHandler(BaseHandler):
@@ -100,6 +109,7 @@ class PageHandler(BaseHandler):
         """
         page_content = ''
         ajax = self.is_ajax()
+        data = False
         theme = self.get_argument('theme', None)
         
         if theme is not None:
@@ -107,23 +117,24 @@ class PageHandler(BaseHandler):
 
         if path is None:
             path = 'index'
+            
+        if options.allow_data:
+            data = self.is_data()
 
         path = slug_to_name(path)
-        
-        if ajax is False:
+
+        if ajax is False or data is False:
             if path is None or str(path).lower() != 'toc':
                 title, slug, date, template, content= self.parse_page('toc')
-                #page_content += content
 
             if path is None or str(path).lower() != 'index':
                 title, slug, date, template, content = self.parse_page('index')
-                #page_content += content
 
 
         title, slug, date, template, content = self.parse_page(path)
         page_content += content
                 
-        if ajax is True:
+        if ajax is True or data is True:
             self.write({
                 'title': title,
                 'slug': slug,

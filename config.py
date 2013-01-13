@@ -1,6 +1,7 @@
 import os
 from tornado.options import define
 
+define('allow_data', default=True, help='Allows requests to be returned as an dictionary/json by appending .data to the end of requests')
 define('site_root', default=os.path.dirname(__file__), help='Full path to site root')
 define('page_dir', default='page', help='The directory where the page.md files are stored')
 define('static_dir', default='static', help='The directory where all of the static (css, js, img, etc.) files are stored')
