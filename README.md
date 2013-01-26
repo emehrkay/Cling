@@ -86,15 +86,15 @@ A successful theme must follow a few rules:
 
 All site configuration options are located in config.py.
 
-* allow_data -- if a request is sent to a Cling.py site via Ajax, a json object is returned. If allow\_data is set to True, appending .data to the end of the request will return the same data. This also works with previews: .com/test/test.txt.preview.data will load the data for a non-.md file. Defaulted to True
-* allow_preview -- allows loading of non-.md files. Defaulted to True
-* site_root -- full path to the site installation.
-* page_dir -- The directory where the page.md files are stored. Relative to the site\_root.
-* static_dir -- The directory where the static files (js, css, img, etc.) are stored. Relative to the site\_root.
-* theme_dir -- The directory where the themes are stored. Relative to the site\_root.
-* page_404 -- The path to the 404.md page. Relative to the page\_dir.
-* sort\_article_by -- Parameter to sort articles by: modified or created.
-* theme -- The theme to use for your Cling.py website.
+* allow_data -- if a request is sent to a Cling.py site via Ajax, a json object is returned. If allow\_data is set to True, appending .data to the end of the request will return the same data. This also works with previews: .com/test/test.txt.preview.data will load the data for a non-.md file. Defaulted to ```True```
+* allow_preview -- allows loading of non-.md files. Defaulted to ```True```
+* site_root -- full path to the site installation. Defaulted to wherever the site is.
+* page_dir -- The directory where the page.md files are stored. Relative to the site\_root. Defaulted to ```page```
+* static_dir -- The directory where the static files (js, css, img, etc.) are stored. Relative to the site\_root. Defaulted to ```static```
+* theme_dir -- The directory where the themes are stored. Relative to the site\_root. Defaulted to ```theme```
+* page_404 -- The path to the 404.md page. Relative to the page\_dir. Defaulted to ```$site\_root\page\404.md```
+* sort\_article_by -- Parameter to sort articles by: modified or created. Defaulted to ```modified```
+* theme -- The theme to use for your Cling.py website. If this is set to ```None``` then the cling theme will be used.
 
 ## Folder Structure
 
