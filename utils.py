@@ -105,7 +105,7 @@ def get_file_contents(file_name):
         return f.read()
 
 
-def parse_page(page, auto_index=True):
+def parse_page(page, auto_index=True, is_preview=False):
     """this function takes a page written in markdown and returns
     a list of strings including: title, slug, date, template, parsed
     
@@ -113,7 +113,13 @@ def parse_page(page, auto_index=True):
         string page -- the file to be parsed
     """
     full = os.path.join(options.page_dir, page)
-    full_file = '%s.md' % full
+    
+    #if it is a preview, remove .preview from the link
+    if is_preview is False:
+        full_file = '%s.md' % full
+    else:
+        full_file = full[:full.find('.preview')]
+        
     md = markdown.Markdown(extensions = ['meta'])
     
     if os.path.isfile(full_file):
@@ -148,10 +154,12 @@ def parse_page(page, auto_index=True):
 
 def get_template_page(page):
     """method used to get the a page based on the theme 
-    
+    it will check the options.theme defined theme for the page first and if it isnt found
+    it will fallback to options.theme_dir/cling for the template page
     """
     templates = ['%s.html' % os.path.join(options.theme_dir, 'cling', page)]
     page_template = templates[0]
+    
     if options.theme is not None:
         templates.append('%s.html' % os.path.join(options.theme_dir, options.theme, page))
 

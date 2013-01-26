@@ -27,7 +27,7 @@ class Application(web.Application):
         route = (r'/([\w_\-\/]+)?', PageHandler)
         
         if options.allow_data:
-            route = (r'/([\w_\-\/\.\+?]+)?(?:\.data)?', PageHandler)
+            route = (r'/([\w_\-\/\.\+?]+)?(?:\.preview)?(?:\.data)?', PageHandler)
 
         routes = [
             route,
@@ -56,13 +56,13 @@ class BaseHandler(web.RequestHandler):
         return template.generate(**args)
         
     
-    def parse_page(self, page=None):
+    def parse_page(self, page=None, is_preview=False):
         """method used to render a page from the page directory
         
         args:
             stirng page 
         """
-        title, lead_image, slug, date, template, content, meta = parse_page(page)
+        title, lead_image, slug, date, template, content, meta = parse_page(page, is_preview=is_preview)
         content = self._template_string(content)
         content_template = get_template_page(template)
         content_rendered = self.render_string(content_template, content=content, page=os.path.join(options.page_dir, page))
@@ -83,6 +83,9 @@ class BaseHandler(web.RequestHandler):
         """method that checks to see if the request was for data"""
         return self.request.uri.endswith('.data')
 
+    def is_preview(self):
+        """method that will allow loading of non-markdown files (files that do not appear in toc)"""
+        return '.preview' in self.request.uri
         
 class PageHandler(BaseHandler):
     """main controller class"""
@@ -108,7 +111,7 @@ class PageHandler(BaseHandler):
             data = self.is_data()
 
         path = slug_to_name(path)
-
+        
         if ajax is False or data is False:
             if path is None or str(path).lower() != 'toc':
                 title, slug, date, template, content= self.parse_page('toc')
@@ -116,8 +119,7 @@ class PageHandler(BaseHandler):
             if path is None or str(path).lower() != 'index':
                 title, slug, date, template, content = self.parse_page('index')
 
-
-        title, slug, date, template, content = self.parse_page(path)
+        title, slug, date, template, content = self.parse_page(path, is_preview=self.is_preview())
         page_content += content
                 
         if ajax is True or data is True:
