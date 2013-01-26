@@ -43,11 +43,13 @@ Since Cling.py is built on top of Tornadoweb, it makes use of Torando's templati
 
 ### Page System
 
-Cling.py is a Markdown-based application that utilized version 2.2 of the Python Markdown utility. By default pages are stored in the ```page``` directory. Pages stored in the root of the directory (index.md, 404.md) will not show up under any category, but they are accessible via their slug (.com/404 .com/index).
+Cling.py is a Markdown-based application that utilized version 2.2 of the Python Markdown utility. By default pages are stored in the ```page``` directory. Pages stored in the root of the directory (index.md, 404.md) will not show up under any category, but they are accessible via their slug (.com/404 .com/index). Storing pages directly in the root page directory is a good way to have pages that you do not want to show up in the table of contents. 
 
 To create a new category simply add a new directory in the ```page``` directory; categories can have sub-categories by using the same process and are probably infinite (didn't test it). When a category is accessed via the url (.com/category), the toc.md page is parsed and shows all of the pages for the given category. This will first check for the existence of an index.md file in that directory and use that instead of the toc.md.
 
-The table of contents page will order files either by date created or date modified as defined in the confif.py and will only consider files that end with ```.md```. Each page listed will also list all of the categories associated with the page.
+The table of contents page will order files either by date created or date modified as defined in the confif.py and will only consider files that end with ```.md```. Each page listed in the table of contents will also list all of the categories associated with the page. 
+
+To create draft pages simply save a file anywhere in the ```page``` directory with any extension other than ```.md```. If you create a draft called ```new_info.txt``` under /info, browsing to .com/info/new_info will not load the file, the 404 page will be loaded. To preview the file you add ```.preview``` and the file's extension to the end of the url .com/info/new_info.txt.preview and the page will be loaded.
 
 #### Tornado Module System
 
