@@ -132,11 +132,32 @@ def parse_page(page, auto_index=True):
 
     content = get_file_contents(md_page)
     parsed = md.convert(content)
-    meta = md.Meta
-    title = str(meta.get('title', [''])[0])
+    meta_u = md.Meta
+    meta = {}
+    for k, v in meta_u.items():
+        meta[str(k)] = str(v[0])
+
+    title = str(meta.get('title', ''))
     slug = name_to_slug(md_page.split(os.sep)[-1])
-    date = str(meta.get('date', ['today'])[0])
-    template = str(meta.get('template', ['page/base'])[0])
-    lead_image = str(meta.get('lead_image', [''])[0])
+    date = str(meta.get('date', 'today'))
+    template = str(meta.get('template', 'page/base'))
+    lead_image = str(meta.get('lead_image', ''))
     
-    return title, lead_image, slug, date, template, parsed
+    return title, lead_image, slug, date, template, parsed, meta
+    
+
+def get_template_page(page):
+    """method used to get the a page based on the theme 
+    
+    """
+    templates = ['%s.html' % os.path.join('template', page)]
+    page_template = templates[0]
+    if options.theme is not None:
+        templates.append('%s.html' % os.path.join(options.theme_dir, options.theme, page))
+
+    for pt in reversed(templates):
+        if os.path.isfile(pt):
+            page_template = pt
+            break
+    
+    return page_template   

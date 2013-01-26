@@ -1,0 +1,130 @@
+::selection {
+	background: #FFBA92;
+}
+h1{
+    margin-top: 0px;
+}
+a{
+    text-decoration: none;
+}
+a:hover{
+    text-decoration: underline;
+}
+.toc_list{
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    font-size: 1.25em;
+}
+    .toc_list .toc_entry{
+        margin: 0px;
+        padding: 0px;
+    }
+    .toc_categories{
+        display: none;
+    }
+
+.header{
+    height: 50px;
+    background: transparent;
+    position: fixed;
+    top: 3px;
+    left: 0px;
+    z-index: 500;
+    text-align: center;
+    line-height: 50px;
+}
+    .header .logo, 
+    .header svg{
+        width: 45px;
+        height: 45px;
+        display: inline-block;
+    }
+        .header .logo img{
+            width: 100%;
+        }
+.page{
+    z-index: 100;
+    position: relative;
+}
+.footer{
+    text-align: center;
+}
+
+/* Grid - Fluid 960 grid
+-------------------------------------------------------------- */
+.container{
+	width:92%;
+	max-width:960px; /* <-- width-governor */
+	margin: 0 auto;
+	position: relative;
+}
+
+.grid_1,.grid_2,.grid_3,.grid_full{
+	float:left;
+	position:relative;
+	margin-left:1%;
+	margin-right:1%
+}
+
+.grid_1		{ width:31.333% }
+.grid_2		{ width:64.667% }
+.grid_3,
+.grid_full	{ width:98.0% }
+.grid_right	{ float:right }
+
+/* Use as necessary for nested content. Also use percents here for fluidity. */
+.content-pad-right { margin-right: 4%; }
+.content-pad-left { margin-left: 4%; }
+
+
+/* Page-Specific - based on the <body> class
+-------------------------------------------------------------- */
+
+
+/* @media Queries -------------------------------------------- */
+
+/* @iPhone < 480px - One column fluid.
+-------------------------------------------------------------- */
+@media screen and (max-width:480px) {
+
+}
+
+/* @1-Col < 640px - One column fluid.
+-------------------------------------------------------------- */
+@media screen and (max-width: 640px) {
+	html{
+		-webkit-text-size-adjust:none;
+		-ms-text-size-adjust:none
+	}
+
+	body{
+		font-size: 82.5%;
+	}
+
+	.container{
+		width:92%;
+		margin:0 auto
+	}
+
+	.grid_1,.grid_2,.grid_3,.grid_full{
+		float: none;
+		width:100%;
+		margin:0 0 2.5em;
+	}
+
+	.content-pad-left,
+	.content-pad-right {
+		margin-left:0;
+		margin-right:0;
+	}
+    
+    .header{
+        top: 0px;
+        width: 100%;
+        background-color: rgba(255, 255, 255, .7);
+    }
+    .page{
+        top: 50px;
+    }
+}

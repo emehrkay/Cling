@@ -1,0 +1,18 @@
+{% if 'page_class' not in meta %}{% set meta['page_class'] = '' %}{% end %}
+<div class="page {{ meta['page_class'] }}" data-name="/{{ page }}">
+    <article>
+        <div class="container">   
+            <div class="grid_full">
+                <header >
+                    {% if lead_image %}
+                        <img src="{{ lead_image }}" alt="{{ title }} page main image" class="article_lead_image" />
+                    {% end %}
+                    {% if 'lead_content' in meta %}
+                        <div class="lead_content">{{ str(meta['lead_content']) }}</div>
+                    {% end %}
+                </header>   
+                {{ content }}
+            </div>
+        </div>
+    </article>
+</div>

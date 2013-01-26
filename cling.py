@@ -10,7 +10,7 @@ import os.path
 
 from tornado import httpserver, ioloop, web
 from tornado.options import define, options
-from utils import parse_page, directory_listing, slug_to_name
+from utils import parse_page, directory_listing, slug_to_name, get_template_page
 import config
 
 class Application(web.Application):
@@ -21,7 +21,6 @@ class Application(web.Application):
             'debug': True,
             'autoescape': None,
             'static_path': os.path.join(os.path.dirname(__file__), 'static'),
-            'cookie_secret': 'a23,m.r49we342asdf6zxkyjlj889(*9ª•ª•90lij;)',
             'ui_modules': {'TOC': TocModule,}
         }
         
@@ -56,19 +55,6 @@ class BaseHandler(web.RequestHandler):
         args.update(self.ui)
         return template.generate(**args)
         
-    def get_template_page(self, page):
-        templates = ['%s.html' % os.path.join('template', page)]
-        
-        if options.theme is not None:
-            templates.append('%s.html' % os.path.join(options.theme_dir, options.theme, page))
-            #templates.insert(0, theme_template)
-        
-        for pt in reversed(templates):
-            if os.path.isfile(pt):
-                page_template = pt
-                break
-        
-        return page_template
     
     def parse_page(self, page=None):
         """method used to render a page from the page directory
@@ -76,13 +62,13 @@ class BaseHandler(web.RequestHandler):
         args:
             stirng page 
         """
-        title, lead_image, slug, date, template, content = parse_page(page)
+        title, lead_image, slug, date, template, content, meta = parse_page(page)
         content = self._template_string(content)
-        content_template = self.get_template_page(template)
+        content_template = get_template_page(template)
         content_rendered = self.render_string(content_template, content=content, page=os.path.join(options.page_dir, page))
-        page_template = self.get_template_page('page/page')
+        page_template = get_template_page('page/page')
         page_content = self.render_string(page_template, title=title, 
-            slug=slug, date=date, content=content_rendered, page=page, lead_image=lead_image)
+            slug=slug, date=date, content=content_rendered, page=page, lead_image=lead_image, meta=meta)
             
         return title, slug, date, template, page_content
         
@@ -143,7 +129,7 @@ class PageHandler(BaseHandler):
                 'content': page_content
             })
         else:
-            page_template = self.get_template_page('base') 
+            page_template = get_template_page('base') 
             self.render(page_template, title=title, page_content=page_content)
 
 
@@ -161,8 +147,9 @@ class TocModule(web.UIModule):
             directory = options.page_dir
 
         toc = directory_listing(directory)
-        return self.render_string('template/asset/toc.html', data=toc)
-        
+        toc_page = get_template_page('asset/toc')
+        return self.render_string(toc_page, data=toc)
+     
 
 if __name__ == '__main__':
     """Start the application"""
