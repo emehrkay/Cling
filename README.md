@@ -49,7 +49,7 @@ To create a new category simply add a new directory in the ```page``` directory;
 
 The table of contents page will order files either by date created or date modified as defined in the confif.py and will only consider files that end with ```.md```. Each page listed in the table of contents will also list all of the categories associated with the page. 
 
-To create draft pages simply save a file anywhere in the ```page``` directory with any extension other than ```.md```. If you create a draft called ```new_info.txt``` under /info, browsing to .com/info/new_info will not load the file, the 404 page will be loaded. To preview the file you add ```.preview``` and the file's extension to the end of the url .com/info/new_info.txt.preview and the page will be loaded.
+To create draft pages simply save a file anywhere in the ```page``` directory with any extension other than ```.md```. If you create a draft called ```new_info.txt``` under /info, browsing to .com/info/new_info will not load the file, the 404 page will be loaded. To preview the file you add ```.preview``` and the file's extension to the end of the url .com/info/new_info.txt.preview and the page will be loaded. Previewing non-.md files is an option configurable in config.py.
 
 #### Tornado Module System
 
@@ -86,7 +86,8 @@ A successful theme must follow a few rules:
 
 All site configuration options are located in config.py.
 
-* allow_data -- if a request is sent to a Cling.py site via Ajax, a json object is returned. If allow\_data is set to True, appending .data to the end of the request will return the same data.
+* allow_data -- if a request is sent to a Cling.py site via Ajax, a json object is returned. If allow\_data is set to True, appending .data to the end of the request will return the same data. This also works with previews: .com/test/test.txt.preview.data will load the data for a non-.md file. Defaulted to True
+* allow_preview -- allows loading of non-.md files. Defaulted to True
 * site_root -- full path to the site installation.
 * page_dir -- The directory where the page.md files are stored. Relative to the site\_root.
 * static_dir -- The directory where the static files (js, css, img, etc.) are stored. Relative to the site\_root.

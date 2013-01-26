@@ -99,6 +99,7 @@ class PageHandler(BaseHandler):
         page_content = ''
         ajax = self.is_ajax()
         data = False
+        preview = False
         theme = self.get_argument('theme', None)
         
         if theme is not None:
@@ -109,6 +110,9 @@ class PageHandler(BaseHandler):
             
         if options.allow_data:
             data = self.is_data()
+            
+        if options.allow_preview:
+            preview = self.is_preview()
 
         path = slug_to_name(path)
         
@@ -119,7 +123,7 @@ class PageHandler(BaseHandler):
             if path is None or str(path).lower() != 'index':
                 title, slug, date, template, content = self.parse_page('index')
 
-        title, slug, date, template, content = self.parse_page(path, is_preview=self.is_preview())
+        title, slug, date, template, content = self.parse_page(path, is_preview=preview)
         page_content += content
                 
         if ajax is True or data is True:
