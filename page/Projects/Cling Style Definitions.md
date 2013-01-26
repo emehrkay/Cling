@@ -1,5 +1,7 @@
 title: Cling.py Style Definitions
 lead_image: /static/img/default/leading.png
+lead_content: <div style="background: red">hi</div>
+page_class: mark_test
 
 # h1 Lorem Ipsum
 
@@ -47,3 +49,5 @@ def code_block(code):
     return nested
 ```
 ---
+
+![some text](/static/img/default/leading.png)

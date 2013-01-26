@@ -27,7 +27,7 @@ class Application(web.Application):
         route = (r'/([\w_\-\/]+)?', PageHandler)
         
         if options.allow_data:
-            route = (r'/([\w_\-\/]+)?(?:\.data)?', PageHandler)
+            route = (r'/([\w_\-\/\.\+?]+)?(?:\.data)?', PageHandler)
 
         routes = [
             route,

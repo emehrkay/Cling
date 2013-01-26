@@ -5,4 +5,3 @@ author: EmEhRKay
 # Welcome to Cling.py the Tornadoweb-based static blogging engine
 
 Project is located on Github at <https://github.com/emehrkay/Cling>.
-

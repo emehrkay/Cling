@@ -150,7 +150,7 @@ def get_template_page(page):
     """method used to get the a page based on the theme 
     
     """
-    templates = ['%s.html' % os.path.join('template', page)]
+    templates = ['%s.html' % os.path.join(options.theme_dir, 'cling', page)]
     page_template = templates[0]
     if options.theme is not None:
         templates.append('%s.html' % os.path.join(options.theme_dir, options.theme, page))

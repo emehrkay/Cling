@@ -86,7 +86,7 @@
             overflow: auto;
             -webkit-overflow-scrolling: touch;
             position: absolute;
-            top: 50px;
+            top: 0px;
             bottom: 0px;
             right: 0px;
             left: 0px;

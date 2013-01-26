@@ -1,7 +1,8 @@
 # Python #
 ##########
 *.pyc
-.DS_Store
+*.DS_Store
+*.Python
 bin/
 include/
 lib/
